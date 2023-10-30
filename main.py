@@ -117,9 +117,11 @@ train = pd.read_csv(r'./data/train.csv')
 test = pd.read_csv(r'./data/test.csv')
 international_trade = pd.read_csv(r'./data/international_trade.csv')
 
+train['year'] = train['timestamp'].apply(lambda x: int(x[0:4]))
 train['month'] = train['timestamp'].apply(lambda x: int(x[5:7]))
 train['day'] = train['timestamp'].apply(lambda x: int(x[8:10]))
 
+test['year'] = test['timestamp'].apply(lambda x: int(x[0:4]))
 test['month'] = test['timestamp'].apply(lambda x: int(x[5:7]))
 test['day'] = test['timestamp'].apply(lambda x: int(x[8:10]))
 
@@ -148,8 +150,8 @@ val_dataset = TabularDataset(x_val, y_val)
 train_loader = DataLoader(train_dataset, shuffle=True, batch_size=512)
 val_loader = DataLoader(val_dataset, shuffle=True, batch_size=512)
 
-input_dims = [6, 7, 3, 13, 31]
-model = TabularModel(input_dims, 5)
+input_dims = [6, 7, 3, 2024, 13, 31]
+model = TabularModel(input_dims, 6)
 criterion = nn.MSELoss()
 optimizer = optim.Adam(model.parameters(), lr=3e-4)
 trainer = Trainer(model, criterion, optimizer)
