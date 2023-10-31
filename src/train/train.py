@@ -3,10 +3,12 @@ import torch
 
 
 class Trainer:
-    def __init__(self, model, criterion, optimizer):
+    def __init__(self, model, criterion, optimizer, scheduler=None):
         self.model = model
         self.criterion = criterion
         self.optimizer = optimizer
+        self.scheduler = scheduler
+        self.best_loss = 100000
 
     def train_step(self, train_loader):
         self.model.train()
@@ -40,6 +42,13 @@ class Trainer:
         for epoch in range(100):
             train_loss = self.train_step(train_loader)
             val_loss = self.validation_step(val_loader)
+
+            if self.scheduler is not None:
+                self.scheduler.step(val_loss)
+
+            if val_loss < self.best_loss:
+                self.best_loss = val_loss
+                torch.save(self.model.state_dict(), './model.pth')
 
             print(f"Epoch [{epoch + 1}/{100}]"
                   f"Training Loss: {train_loss:.7f} "
