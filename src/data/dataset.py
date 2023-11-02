@@ -13,7 +13,7 @@ class TabularDataset(Dataset):
     def __getitem__(self, idx):
         x = self.x[idx]
         y = self.y[idx]
-        return x, y
+        return x.long(), y.long()
 
 
 class TestDataset(Dataset):
@@ -26,3 +26,7 @@ class TestDataset(Dataset):
     def __getitem__(self, idx):
         x = self.x[idx]
         return x
+
+
+def to_numpy(*args):
+    return [arg.values for arg in args]
