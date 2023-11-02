@@ -1,14 +1,19 @@
 import pandas as pd
+import torch
 import torch.nn as nn
 from sklearn.model_selection import train_test_split
 from torch import optim
 from torch.utils.data import DataLoader
 
-from src.data.dataset import TabularDataset
+from src.data.dataset import TabularDataset, TestDataset
 from src.data.dataset import to_numpy
 from src.data.preprocessing import DataPreprocessing
+from src.inference.inference import inference
 from src.model.gate_unit import TabularModel
 from src.train.train import Trainer
+from src.config.config import seed_everything, CFG
+
+seed_everything(CFG.SEED)
 
 train = pd.read_csv(r"C:\Project\jeju-price-prediction\data\train.csv")
 test = pd.read_csv(r'C:\Project\jeju-price-prediction\data\test.csv')
@@ -20,7 +25,7 @@ x_train, x_val, y_train, y_val = to_numpy(x_train, x_val, y_train, y_val)
 train_dataset = TabularDataset(x_train, y_train)
 val_dataset = TabularDataset(x_val, y_val)
 
-train_loader = DataLoader(train_dataset, shuffle=True, batch_size=128)
+train_loader = DataLoader(train_dataset, shuffle=True, batch_size=CFG.BATCH_SIZE)
 val_loader = DataLoader(val_dataset, shuffle=True, batch_size=128)
 
 unique_value_list = x.nunique().tolist()
@@ -28,8 +33,9 @@ input_dims = [item + 1 for item in unique_value_list]
 
 model = TabularModel(input_dims, 256)
 criterion = nn.MSELoss()
-optimizer = optim.Adam(model.parameters(), lr=3e-4)
-scheduler = optim.lr_scheduler.CosineAnnealingWarmRestarts(optimizer, T_0=20, T_mult=1, eta_min=1e-6, last_epoch=-1)
+optimizer = optim.Adam(model.parameters(), lr=CFG.LEARNING_RATE)
+scheduler = optim.lr_scheduler.CosineAnnealingWarmRestarts(optimizer, T_0=20, T_mult=1, eta_min=1e-6,
+                                                           last_epoch=-1)
 trainer = Trainer(model, criterion, optimizer, scheduler)
 trainer.fit(train_loader, val_loader)
 

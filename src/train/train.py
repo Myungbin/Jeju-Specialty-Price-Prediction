@@ -1,10 +1,12 @@
-from tqdm import tqdm
 import torch
+from tqdm import tqdm
+
+from src.config.config import CFG
 
 
 class Trainer:
     def __init__(self, model, criterion, optimizer, scheduler=None):
-        self.model = model
+        self.model = model.to(CFG.DEVICE)
         self.criterion = criterion
         self.optimizer = optimizer
         self.scheduler = scheduler
@@ -14,6 +16,7 @@ class Trainer:
         self.model.train()
         train_loss = 0
         for data, label in tqdm(train_loader, leave=False):
+            data, label = data.to(CFG.DEVICE), label.to(CFG.DEVICE)
             self.optimizer.zero_grad()
 
             output = self.model(data)
@@ -31,6 +34,7 @@ class Trainer:
         val_loss = 0
         with torch.no_grad():
             for data, label in tqdm(validation_loader, leave=False):
+                data, label = data.to(CFG.DEVICE), label.to(CFG.DEVICE)
                 prediction = self.model(data)
                 loss = self.criterion(prediction.to(torch.float32), label.to(torch.float32))
                 val_loss += loss.item()
@@ -39,7 +43,7 @@ class Trainer:
         return avg_validation_loss
 
     def fit(self, train_loader, val_loader):
-        for epoch in range(100):
+        for epoch in range(CFG.EPOCHS):
             train_loss = self.train_step(train_loader)
             val_loss = self.validation_step(val_loader)
 
