@@ -31,7 +31,7 @@ val_loader = DataLoader(val_dataset, shuffle=True, batch_size=128)
 unique_value_list = x.nunique().tolist()
 input_dims = [item + 1 for item in unique_value_list]
 
-model = TabularModel(input_dims, 256)
+model = TabularModel(input_dims, 64)
 criterion = nn.MSELoss()
 optimizer = optim.Adam(model.parameters(), lr=CFG.LEARNING_RATE)
 scheduler = optim.lr_scheduler.CosineAnnealingWarmRestarts(optimizer, T_0=20, T_mult=1, eta_min=1e-6,

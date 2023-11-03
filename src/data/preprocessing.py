@@ -23,6 +23,7 @@ class DataPreprocessing:
 
     @staticmethod
     def remove_outliers(train):
+        print('Remove outliers')
         Q1 = train['price(원/kg)'].quantile(0.25)
         Q3 = train['price(원/kg)'].quantile(0.75)
         IQR = Q3 - Q1
@@ -34,6 +35,7 @@ class DataPreprocessing:
 
     @staticmethod
     def preprocessing(data):
+        print('Preprocessing Start')
         # time feature
         data['year'] = data['timestamp'].apply(lambda x: int(x[0:4]))
         data['month'] = data['timestamp'].apply(lambda x: int(x[5:7]))
