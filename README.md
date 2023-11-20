@@ -17,30 +17,30 @@ jeju-price-prediction
 ├─ README.md
 ├─ archive
 │  └─ archive file
-├─ data
+├─ data  # 원본 데이터 
 ├─ garbage
 │  ├─ gate_model.py
 │  ├─ temp copy.ipynb
 │  └─ temp.ipynb
-├─ main.py
-├─ AutoGluon.ipynb
-├─ notebooks
+├─ main.py  # DNN train & inference
+├─ AutoGluon.ipynb  # ML train & inference
+├─ notebooks 
 │  └─ EDA
 ├─ result
 │  └─ Result file
 └─ src
-   ├─ config
+   ├─ config  # config file
    │  └─ config.py
-   ├─ data
+   ├─ data  # feature_extraction & preprocessing
    │  ├─ dataset.py
    │  ├─ feature_extraction.py
    │  └─ preprocessing.py
    ├─ importance.py
-   ├─ inference
+   ├─ inference  
    │  └─ inference.py
-   ├─ model
+   ├─ model  # DNN model
    │  └─ gate_unit.py
-   └─ train
+   └─ train  # train loop
       └─ train.py
 
 ```
