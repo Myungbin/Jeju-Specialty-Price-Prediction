@@ -63,12 +63,12 @@ price(원/kg) : 유통된 품목들의 kg 마다의 가격, 원 단위
 test 데이터 : 2023년 03월 04일부터 2023년 03월 31일까지의 데이터
 ```
 ## Experiment
-`Model`
-```
-Deep Neural Network(Embedding + Sigmoid Gate Unit)  
-AutoML
-```
-
+#### Model
+`Deep Neural Network(Embedding + Sigmoid Gate Unit)`  
+`AutoML`
+#### Feature
+`time과 item을 활용한 Feature Engineering `  
+각 case별 평균 및 중앙값을 이용한 이상치 처리 및 변수간 차이를 줄 수 있는 feature를 중심으로 생성  
 
 
 
