@@ -7,7 +7,7 @@ import torch
 
 class Config:
     DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
-    BATCH_SIZE = 64
+    BATCH_SIZE = 256
     EPOCHS = 100
     SEED = 1103
 

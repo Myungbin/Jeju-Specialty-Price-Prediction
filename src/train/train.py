@@ -52,6 +52,7 @@ class Trainer:
 
             if val_loss < self.best_loss:
                 self.best_loss = val_loss
+                print('Saving Model')
                 torch.save(self.model.state_dict(), './model.pth')
 
             print(f"Epoch [{epoch + 1}/{100}]"

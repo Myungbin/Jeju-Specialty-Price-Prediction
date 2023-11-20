@@ -19,3 +19,17 @@ def holiday(df):
 def cyclical_feature(df, time=12):
     df['sin_time'] = np.sin(2 * np.pi * df.month / time)
     df['cos_time'] = np.cos(2 * np.pi * df.month / time)
+
+def determine_harvest_weight(item, month):
+    harvest_times = {
+    'TG': {'main': [(10, 1)]},  # 감귤: 10월부터 이듬해 1월까지
+    'BC': {'main': [(4, 6), (9, 11)]},  # 브로콜리: 4월-6월, 9월-11월
+    'RD': {'main': [(5, 6), (11, 12)]},  # 무: 5월, 11월
+    'CR': {'main': [(7, 8), (10, 11)]},  # 당근: 7월-8월, 10월-12월
+    'CB': {'main': [(6, 6), (11, 11)]}  # 양배추: 6월, 11월
+}
+    main_harvest = harvest_times[item]['main']
+    for start, end in main_harvest:
+        if start <= month <= end:
+            return 1
+    return 0
